@@ -1,0 +1,39 @@
+From: Jan-Joost Spanjers <oss@hiberis.nl>
+Date: Wed, 21 Oct 2026 10:33:00 +0200
+Subject: Add install to CMakeLists.txt
+
+---
+ CMakeLists.txt | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 432b8bf..dac567a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,3 +14,26 @@ if(BUILD_TESTS AND (PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
+     endif()
+     add_subdirectory(tests)
+ endif()
++
++# Define standard GNU installation directories (e.g., CMAKE_INSTALL_DATADIR)
++include(GNUInstallDirs)
++
++# Define the paths where the files will be placed
++set(CMAKERC_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}")
++
++# Install the main module script itself
++# This allows 'include(CMakeRC)' if this directory is in CMAKE_MODULE_PATH
++install(
++    FILES "CMakeRC.cmake"
++    DESTINATION "${CMAKERC_INSTALL_DIR}"
++)
++
++# Generate and install a <PackageName>Config.cmake wrapper
++# This ensures that 'find_package(CMakeRC REQUIRED)' functions flawlessly
++set(CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
++file(WRITE "${CONFIG_FILE}" "include(\"\${CMAKE_CURRENT_LIST_DIR}/CMakeRC.cmake\")\n")
++
++install(
++    FILES "${CONFIG_FILE}"
++    DESTINATION "${CMAKERC_INSTALL_DIR}"
++)
