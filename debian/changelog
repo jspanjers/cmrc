@@ -1,3 +1,9 @@
+cmrc (2.0.1-1~ppa1) stonking; urgency=medium
+
+  * Publish 2.0.1-1~ppa1.
+
+ -- Jan-Joost Spanjers <oss@hiberis.nl>  Wed, 21 Oct 2026 12:40:24 +0200
+
 cmrc (2.0.1-1) UNRELEASED; urgency=medium
 
   * Debian packaging 2.0.1-1.
